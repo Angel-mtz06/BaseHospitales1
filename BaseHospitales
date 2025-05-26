@@ -1,0 +1,62 @@
+-- Crear la base de datos
+CREATE DATABASE hospital;
+
+-- Usar la base de datos
+USE hospital;
+
+-- Crear tabla Hospital
+CREATE TABLE Hospital (
+    ID_Hospital INT PRIMARY KEY AUTO_INCREMENT,
+    NombreH VARCHAR(100),
+    Estado VARCHAR(30),
+    Ciudad VARCHAR(50),
+    Colonia VARCHAR(50),
+    Calle VARCHAR(100),
+    Num VARCHAR(20),
+    TelefonoH VARCHAR(20),
+    EmailH VARCHAR(100)
+);
+
+CREATE TABLE Paciente (
+    ID_Paciente INT PRIMARY KEY AUTO_INCREMENT,
+    NombreP VARCHAR(100),
+    ApellidoP VARCHAR(100),
+    FechaNac DATE,
+    Genero VARCHAR(10),
+    TelefonoP VARCHAR(20)
+
+);
+
+CREATE TABLE Ingreso (
+    ID_Ingreso INT PRIMARY KEY AUTO_INCREMENT,
+    ID_Paciente INT,
+    ID_Hospital INT,
+    Fechaing DATE,
+    Fechasal DATE,
+    Motivo VARCHAR(255),
+    Estado VARCHAR(50),  -- Ej: activo, dado de alta
+    FOREIGN KEY (ID_Paciente) REFERENCES Paciente(ID_Paciente),
+    FOREIGN KEY (ID_Hospital) REFERENCES Hospital(ID_Hospital)
+);
+
+CREATE TABLE Medico (
+    ID_Medico INT PRIMARY KEY AUTO_INCREMENT,
+    NombreM VARCHAR(100),
+    ApellidoM VARCHAR(100),
+    Especialidad VARCHAR(100),
+    TelefonoM VARCHAR(20),
+    Email VARCHAR(100),
+    ID_Hospital INT,
+    FOREIGN KEY (ID_Hospital) REFERENCES Hospital(ID_Hospital)
+);
+
+CREATE TABLE Tratamiento (
+    ID_Tratamiento INT PRIMARY KEY AUTO_INCREMENT,
+    ID_Ingreso INT,
+    ID_Medico INT,
+    Descripcion TEXT,
+    Fechain DATE,
+    Fechafin DATE,
+    FOREIGN KEY (ID_Ingreso) REFERENCES Ingreso(ID_Ingreso),
+    FOREIGN KEY (ID_Medico) REFERENCES Medico(ID_Medico)
+);
