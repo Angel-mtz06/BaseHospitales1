@@ -60,3 +60,57 @@ CREATE TABLE Tratamiento (
     FOREIGN KEY (ID_Ingreso) REFERENCES Ingreso(ID_Ingreso),
     FOREIGN KEY (ID_Medico) REFERENCES Medico(ID_Medico)
 );
+
+
+SELECT 
+    P.NombreP, P.ApellidoP, H.NombreH, I.Motivo, I.Estado
+FROM 
+    Paciente P
+JOIN 
+    Ingreso I ON P.ID_Paciente = I.ID_Paciente
+JOIN 
+    Hospital H ON I.ID_Hospital = H.ID_Hospital;
+
+
+SELECT 
+    M.NombreM, M.ApellidoM, M.Especialidad
+FROM 
+    Medico M
+JOIN 
+    Hospital H ON M.ID_Hospital = H.ID_Hospital
+WHERE 
+    H.NombreH = 'Hospital Central';
+
+
+SELECT 
+    I.ID_Ingreso, P.NombreP, P.ApellidoP, I.Fechaing, I.Motivo
+FROM 
+    Ingreso I
+JOIN 
+    Paciente P ON I.ID_Paciente = P.ID_Paciente
+WHERE 
+    I.Estado = 'Activo';
+
+
+SELECT 
+    T.ID_Tratamiento, T.Descripcion, T.Fechain, T.Fechafin,
+    M.NombreM, M.ApellidoM,
+    P.NombreP, P.ApellidoP
+FROM 
+    Tratamiento T
+JOIN 
+    Medico M ON T.ID_Medico = M.ID_Medico
+JOIN 
+    Ingreso I ON T.ID_Ingreso = I.ID_Ingreso
+JOIN 
+    Paciente P ON I.ID_Paciente = P.ID_Paciente;
+
+
+SELECT 
+    H.NombreH, COUNT(I.ID_Ingreso) AS TotalIngresos
+FROM 
+    Hospital H
+LEFT JOIN 
+    Ingreso I ON H.ID_Hospital = I.ID_Hospital
+GROUP BY 
+    H.NombreH;
